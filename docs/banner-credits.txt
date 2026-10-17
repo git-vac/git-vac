@@ -1,0 +1,3 @@
+The seven AVG text banners were generated using TAAG at https://patorjk.com/software/taag/.
+Fonts: ACID 3D, DeathStar, Downfall, Eco, FateGate, Font 20, Ice Zone (TheDraw fonts).
+The original character shapes and ANSI foreground/background colours are preserved as text.

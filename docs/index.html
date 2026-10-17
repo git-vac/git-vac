@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0c0c0c">
+  <meta name="description" content="AVG's terminal dashboard. Offensive Security, Cloud Engineering & Security, and Infrastructure.">
+  <title>AVG — Terminal</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./dashboard.css">
+  <script src="./banner-data.js" defer></script>
+  <script src="./dashboard.js" defer></script>
+</head>
+<body>
+  <main id="terminal" aria-label="AVG terminal portfolio">
+    <div id="output" role="log" aria-live="polite" aria-relevant="additions"></div>
+    <form id="command-form" autocomplete="off" hidden>
+      <div class="prompt-head" aria-hidden="true">┌──(<span class="identity">avg㉿portfolio</span>)-[<span class="directory">~</span>]</div>
+      <div class="input-line">
+        <span class="prompt-tail" aria-hidden="true">└─$</span>
+        <label for="command" class="sr-only">Terminal command</label>
+        <input id="command" name="command" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" maxlength="500" aria-describedby="suggestions">
+        <button type="submit" class="sr-only submit">Run command</button>
+      </div>
+    </form>
+    <div id="suggestions" class="hint" role="status" aria-live="polite"></div>
+    <noscript>Enable JavaScript for the terminal, or visit <a href="https://github.com/git-vac">AVG on GitHub</a>.</noscript>
+  </main>
+</body>
+</html>
