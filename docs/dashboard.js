@@ -12,7 +12,7 @@ const suggestions=document.getElementById('suggestions');
 const history=[];
 const dashboardBannerNames=new Set(['ACID 3D','DeathStar','FateGate','Ice Zone']);
 let historyIndex=0,draft='',lastBanner=-1,booting=false;
-const commands=['help','avg-dashboard','banner','whoami','about','focus','projects','contact','github','ls','ls projects/','cat about.md','cat focus.txt','cat contact.md',...projects.map(p=>'open '+p.name),'pwd','date','echo','clear','reset','home','credits'];
+const commands=['help','avg-dashboard','banner','whoami','about','focus','projects','contact','github','ls','ls projects/','cat about.md','cat focus.txt','cat contact.md',...projects.map(p=>'open '+p.name),'pwd','date','echo','clear','reset','home'];
 function element(tag,text,cls){const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node;}
 function link(label,url){const a=element('a',label);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a;}
 function print(container,text){container.append(element('p',text));}
@@ -76,7 +76,7 @@ function run(raw){
     case 'avg-dashboard':dashboard(response);break;
     case 'banner':showBanner(response,true);break;
     case 'help':{
-      [['avg-dashboard','Show the dashboard with a random banner'],['banner','Show another ASCII banner'],['whoami / about','About AVG'],['focus','Areas of focus'],['projects','Projects and repository links'],['open <project>','Print a repository link'],['contact / github','GitHub profile'],['ls','List portfolio files'],['cat <file>','Read a portfolio file'],['pwd','Current directory'],['date','Your local date and time'],['echo <text>','Print text'],['clear','Clear the terminal'],['reset','Replay startup'],['credits','ASCII banner source']].forEach(([name,desc])=>{const row=element('div',undefined,'help-row');row.append(element('code',name),element('span',desc));response.append(row);});break;
+      [['avg-dashboard','Show the dashboard with a random banner'],['banner','Show another ASCII banner'],['whoami / about','About AVG'],['focus','Areas of focus'],['projects','Projects and repository links'],['open <project>','Print a repository link'],['contact / github','GitHub profile'],['ls','List portfolio files'],['cat <file>','Read a portfolio file'],['pwd','Current directory'],['date','Your local date and time'],['echo <text>','Print text'],['clear','Clear the terminal'],['reset','Replay startup']].forEach(([name,desc])=>{const row=element('div',undefined,'help-row');row.append(element('code',name),element('span',desc));response.append(row);});break;
     }
     case 'whoami':print(response,'AVG');break;
     case 'about':showAbout(response);break;
@@ -98,7 +98,6 @@ function run(raw){
     case 'pwd':print(response,'/home/avg/portfolio');break;
     case 'date':print(response,new Date().toLocaleString(undefined,{dateStyle:'full',timeStyle:'short'}));break;
     case 'echo':print(response,arg);break;
-    case 'credits':print(response,'TAAG TheDraw fonts: ACID 3D, DeathStar, Downfall, Eco, FateGate, Font 20, Ice Zone.');response.append(link('https://patorjk.com/software/taag/','https://patorjk.com/software/taag/'));break;
     default:print(response,parts[0]+': command not found. Type help.');
   }
   while(output.children.length>80)output.firstElementChild.remove();focusInput();
