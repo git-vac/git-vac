@@ -1,5 +1,6 @@
 'use strict';
 const projects=[
+  {name:'agent-tripwire',language:'Python',description:'AI agent security tests with verified tool actions, local canaries, and terminal/HTML evidence reports.',url:'https://github.com/git-vac/agent-tripwire'},
   {name:'wpscan-view',language:'Python',description:'WPScan JSON as readable terminal output and a standalone HTML dashboard.',url:'https://github.com/git-vac/wpscan-view'},
   {name:'service-explorer',language:'Python',description:'An IMAP/POP3 mailbox browser and exporter, plus a DNS explorer.',url:'https://github.com/git-vac/service-explorer'},
   {name:'linux-system-report',language:'Bash',description:'Linux system information as Markdown, with explicit collection gaps.',url:'https://github.com/git-vac/linux-system-report'},
@@ -40,6 +41,7 @@ function dashboard(container){
   showBanner(container,false,true);
   const info=element('div',undefined,'dashboard-info');
   print(info,'Offensive Security / Cloud Engineering & Security / Infrastructure');
+  const featured=element('p');featured.append(document.createTextNode('Featured: '),link(projects[0].name,projects[0].url));info.append(featured);
   container.append(info);
   const help=element('div',undefined,'dashboard-help');
   print(help,'Type help for all commands, or try:');
