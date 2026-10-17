@@ -1,1 +1,1 @@
-[Open AVG terminal](https://git-vac.github.io/git-vac/)
+[Open terminal](https://git-vac.github.io/git-vac/)
