@@ -10,6 +10,7 @@ const output=document.getElementById('output');
 const form=document.getElementById('command-form');
 const suggestions=document.getElementById('suggestions');
 const history=[];
+const dashboardBannerNames=new Set(['ACID 3D','DeathStar','FateGate','Ice Zone']);
 let historyIndex=0,draft='',lastBanner=-1,booting=false;
 const commands=['help','avg-dashboard','banner','whoami','about','focus','projects','contact','github','ls','ls projects/','cat about.md','cat focus.txt','cat contact.md',...projects.map(p=>'open '+p.name),'pwd','date','echo','clear','reset','home','credits'];
 function element(tag,text,cls){const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node;}
@@ -25,8 +26,10 @@ function focusInput(scroll=true){input.focus({preventScroll:true});if(scroll)inp
 function fitBanners(){
   document.querySelectorAll('.ascii-banner').forEach(pre=>{const available=pre.parentElement.clientWidth;const columns=Number(pre.dataset.columns);pre.style.fontSize=Math.min(14,Math.max(5,(available-2)/(columns*.6)))+'px';});
 }
-function showBanner(container,avoidRepeat=false){
-  let choices=AVG_BANNERS.map((_,i)=>i);if(avoidRepeat&&choices.length>1)choices=choices.filter(i=>i!==lastBanner);
+function showBanner(container,avoidRepeat=false,dashboardOnly=false){
+  let choices=AVG_BANNERS.map((_,i)=>i);
+  if(dashboardOnly)choices=choices.filter(i=>dashboardBannerNames.has(AVG_BANNERS[i].name));
+  if(avoidRepeat&&choices.length>1)choices=choices.filter(i=>i!==lastBanner);
   const index=choices[Math.floor(Math.random()*choices.length)];lastBanner=index;
   const banner=AVG_BANNERS[index];
   const wrap=element('div',undefined,'banner-wrap');const pre=element('pre',undefined,'ascii-banner');pre.dataset.columns=banner.columns;pre.dataset.font=banner.name;pre.setAttribute('role','img');pre.setAttribute('aria-label','AVG ASCII banner — '+banner.name);
@@ -34,10 +37,10 @@ function showBanner(container,avoidRepeat=false){
   wrap.append(pre);container.append(wrap);fitBanners();
 }
 function dashboard(container){
-  showBanner(container);
+  showBanner(container,false,true);
   const info=element('div',undefined,'dashboard-info');
   print(info,'Offensive Security / Cloud Engineering & Security / Infrastructure');
-  print(info,projects.length+' public projects · '+AVG_BANNERS.length+' banner styles');container.append(info);
+  container.append(info);
   const help=element('div',undefined,'dashboard-help');
   print(help,'Type help for all commands, or try:');
   const list=element('div');
@@ -101,7 +104,14 @@ function run(raw){
   while(output.children.length>80)output.firstElementChild.remove();focusInput();
 }
 form.addEventListener('submit',event=>{event.preventDefault();run(input.value);});
-document.addEventListener('click',event=>{const button=event.target.closest('[data-command]');if(button)run(button.dataset.command);});
+document.addEventListener('click',event=>{
+  const button=event.target.closest('[data-command]');
+  if(button){run(button.dataset.command);return;}
+  if(booting||event.defaultPrevented||event.button!==0)return;
+  if(event.target.closest('a,button,input,textarea,select,[contenteditable]'))return;
+  if(window.getSelection()?.toString())return;
+  focusInput(false);
+});
 input.addEventListener('keydown',event=>{
   if(event.key==='ArrowUp'){event.preventDefault();if(historyIndex===history.length)draft=input.value;historyIndex=Math.max(0,historyIndex-1);input.value=history[historyIndex]||draft;input.setSelectionRange(input.value.length,input.value.length);}
   if(event.key==='ArrowDown'){event.preventDefault();historyIndex=Math.min(history.length,historyIndex+1);input.value=historyIndex===history.length?draft:history[historyIndex];input.setSelectionRange(input.value.length,input.value.length);}
